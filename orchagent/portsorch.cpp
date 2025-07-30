@@ -29,6 +29,7 @@
 #include "sai_serialize.h"
 #include "crmorch.h"
 #include "countercheckorch.h"
+#include "txerrorcheckorch.h"
 #include "notifier.h"
 #include "fdborch.h"
 #include "switchorch.h"
@@ -624,6 +625,9 @@ PortsOrch::PortsOrch(DBConnector *db, DBConnector *stateDb, vector<table_name_wi
     /* Initialize counter capability table*/
     m_queueCounterCapabilitiesTable = unique_ptr<Table>(new Table(m_state_db.get(), STATE_QUEUE_COUNTER_CAPABILITIES_NAME));
     m_portCounterCapabilitiesTable = unique_ptr<Table>(new Table(m_state_db.get(), STATE_PORT_COUNTER_CAPABILITIES_NAME));
+
+    /* Initialize port state table */
+    m_statePortTable = unique_ptr<Table>(new Table(m_state_db.get(), STATE_PORT_TABLE_NAME));
 
     initGearbox();
 
@@ -5895,6 +5899,8 @@ void PortsOrch::postPortInit(Port& p)
 
     initPortSupportedSpeeds(p.m_alias, p.m_port_id);
     initPortSupportedFecModes(p.m_alias, p.m_port_id);
+
+    m_statePortTable->hset(p.m_alias, TX_ERROR_PORT_STATE_FIELD, TX_ERROR_PORT_STATE_OK);
 }
 
 void PortsOrch::doTask()

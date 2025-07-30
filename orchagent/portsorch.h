@@ -587,6 +587,7 @@ private:
     bool m_isWredPortCounterMapGenerated = false;
     std::unique_ptr<swss::Table> m_queueCounterCapabilitiesTable = nullptr;
     std::unique_ptr<swss::Table> m_portCounterCapabilitiesTable = nullptr;
+    std::unique_ptr<swss::Table> m_statePortTable = nullptr;
 
 private:
     // Port config aggregator
