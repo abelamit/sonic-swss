@@ -32,6 +32,7 @@
 #include "vnetorch.h"
 #include "countercheckorch.h"
 #include "flexcounterorch.h"
+#include "txerrorcheckorch.h"
 #include "watermarkorch.h"
 #include "policerorch.h"
 #include "sfloworch.h"
